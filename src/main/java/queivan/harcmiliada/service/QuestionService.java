@@ -66,6 +66,7 @@ public class QuestionService {
 
     public QuestionDto update(QuestionDto dto) {
         try{
+            log.info(dto.toString());
             isQuestionNotExisting(dto.getId());
             Question entity = mapper.mapToQuestion(dto);
             Question fetched = repository.save(entity);
