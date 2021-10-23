@@ -12,5 +12,6 @@ import java.util.UUID;
 public class QuestionDto {
     private UUID id;
     private String content;
+    private boolean current;
     private List<AnswerDto> answers;
 }
