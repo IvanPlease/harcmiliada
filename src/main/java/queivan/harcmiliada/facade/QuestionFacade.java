@@ -31,4 +31,8 @@ public class QuestionFacade {
     public QuestionDto getCurrent() {
         return service.getCurrent();
     }
+
+    public QuestionDto setCurrent(String id) {
+        return service.setCurrent(id);
+    }
 }

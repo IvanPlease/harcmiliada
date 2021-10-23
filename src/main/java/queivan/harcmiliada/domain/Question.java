@@ -27,4 +27,9 @@ public class Question {
     @NotNull
     @Builder.Default
     private boolean current = false;
+
+    public void setCurrent(boolean current) {
+        this.current = current;
+    }
+
 }

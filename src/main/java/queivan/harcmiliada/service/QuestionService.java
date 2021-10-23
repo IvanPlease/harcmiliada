@@ -76,6 +76,21 @@ public class QuestionService {
         return QuestionDto.builder().build();
     }
 
+    public QuestionDto setCurrent(String id) {
+        try{
+            UUID questionId = UUID.fromString(id);
+            isQuestionExisting(questionId);
+            qRepository.clearCurrent();
+            Question fetched = qRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId));
+            fetched.setCurrent(true);
+            Question result = qRepository.save(fetched);
+            return qMapper.mapToQuestionDto(result);
+        } catch (QuestionDontExistException e){
+            log.error(e.getMessage());
+        }
+        return QuestionDto.builder().build();
+    }
+
     private void isQuestionExisting(String content) {
         if(qRepository.existsByContent(content)){
             throw new QuestionExistsException(content);

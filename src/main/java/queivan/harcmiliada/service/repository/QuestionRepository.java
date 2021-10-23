@@ -13,4 +13,7 @@ public interface QuestionRepository extends JpaRepository<Question, UUID> {
     boolean existsByContent(String content);
     @Query(nativeQuery = true, value = "SELECT * FROM _questions WHERE _questions.current = true")
     Optional<Question> findCurrent();
+    @SuppressWarnings("SqlWithoutWhere")
+    @Query(nativeQuery = true, value = "UPDATE _questions SET _questions.current = false;")
+    void clearCurrent();
 }
