@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity(name = "_questions")
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder

@@ -3,6 +3,7 @@ package queivan.harcmiliada.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import queivan.harcmiliada.domain.Answer;
 import queivan.harcmiliada.domain.Question;
 import queivan.harcmiliada.domain.QuestionDto;
 import queivan.harcmiliada.exceptions.QuestionDontExistException;
@@ -41,7 +42,9 @@ public class QuestionService {
             isQuestionExisting(dto.getContent());
             Question entity = qMapper.mapToQuestion(dto);
             Question returned = qRepository.save(entity);
-            return qMapper.mapToQuestionDto(returned);
+            returned.getAnswers().forEach(answer -> answer.setQuestion(Question.builder().id(returned.getId()).build()));
+            Question saved = qRepository.save(returned);
+            return qMapper.mapToQuestionDto(saved);
         }catch(QuestionExistsException e){
             log.error(e.getMessage());
         }

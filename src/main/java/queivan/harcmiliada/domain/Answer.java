@@ -7,7 +7,7 @@ import javax.persistence.*;
 import java.util.UUID;
 
 @Entity(name = "_answers")
-@Data
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -25,4 +25,8 @@ public class Answer {
     private boolean checked = false;
     @ManyToOne
     private Question question;
+
+    public void setQuestion(Question question){
+        this.question = question;
+    }
 }
