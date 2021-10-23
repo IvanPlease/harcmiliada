@@ -70,6 +70,7 @@ public class QuestionService {
             log.info(dto.toString());
             isQuestionNotExisting(dto.getId());
             Question entity = mapper.mapToQuestion(dto);
+            entity.getAnswers().forEach(answer -> answer.setQuestion(Question.builder().id(dto.getId()).build()));
             Question fetched = repository.saveAndFlush(entity);
             return mapper.mapToQuestionDto(fetched);
         } catch (QuestionDontExistException e){
