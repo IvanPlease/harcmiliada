@@ -46,7 +46,7 @@ public class QuestionController {
         return facade.update(dto);
     }
 
-    @DeleteMapping(value = "/{id}", consumes = APPLICATION_JSON_VALUE, produces = APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/{id}")
     public void delete(@PathVariable String id){
         facade.delete(id);
     }
