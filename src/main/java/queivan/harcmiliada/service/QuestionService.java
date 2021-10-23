@@ -79,7 +79,7 @@ public class QuestionService {
     public QuestionDto setCurrent(String id) {
         try{
             UUID questionId = UUID.fromString(id);
-            isQuestionExisting(questionId);
+            isQuestionNotExisting(questionId);
             qRepository.clearCurrent();
             Question fetched = qRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId));
             fetched.setCurrent(true);
@@ -94,6 +94,12 @@ public class QuestionService {
     private void isQuestionExisting(String content) {
         if(qRepository.existsByContent(content)){
             throw new QuestionExistsException(content);
+        }
+    }
+
+    private void isQuestionNotExisting(UUID id) {
+        if(!qRepository.existsById(id)){
+            throw new QuestionDontExistException(id);
         }
     }
 
