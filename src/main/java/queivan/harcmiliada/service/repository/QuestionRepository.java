@@ -5,11 +5,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import queivan.harcmiliada.domain.Question;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
     boolean existsByContent(String content);
     @Query(nativeQuery = true, value = "SELECT * FROM _questions WHERE _questions.current = true")
-    Question findCurrent();
+    Optional<Question> findCurrent();
 }

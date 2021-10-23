@@ -29,7 +29,7 @@ public class QuestionService {
 
     public QuestionDto getCurrent() {
         try {
-            Question fetched = qRepository.findCurrent();
+            Question fetched = qRepository.findCurrent().orElseThrow(() -> new QuestionNotFoundException("current"));
             fetched.getAnswers().sort(new PointSorter());
             return qMapper.mapToQuestionDto(fetched);
         } catch (QuestionNotFoundException e) {
@@ -41,7 +41,7 @@ public class QuestionService {
     public QuestionDto getById(String id) {
         try {
             UUID queryId = UUID.fromString(id);
-            Question fetched = qRepository.findById(queryId).orElseThrow(() -> new QuestionNotFoundException(queryId));
+            Question fetched = qRepository.findById(queryId).orElseThrow(() -> new QuestionNotFoundException(queryId.toString()));
             fetched.getAnswers().sort(new PointSorter());
             return qMapper.mapToQuestionDto(fetched);
         } catch (QuestionNotFoundException e) {
