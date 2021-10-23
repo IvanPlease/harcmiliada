@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import queivan.harcmiliada.domain.Answer;
 import queivan.harcmiliada.domain.Question;
 import queivan.harcmiliada.domain.QuestionDto;
 import queivan.harcmiliada.exceptions.QuestionDontExistException;
@@ -21,18 +20,18 @@ import java.util.UUID;
 @RequiredArgsConstructor
 @Slf4j
 public class QuestionService {
-    private final QuestionRepository qRepository;
-    private final QuestionMapper qMapper;
+    private final QuestionRepository repository;
+    private final QuestionMapper mapper;
 
     public List<QuestionDto> getAll() {
-        return qMapper.mapToQuestionDtoList(qRepository.findAll());
+        return mapper.mapToQuestionDtoList(repository.findAll());
     }
 
     public QuestionDto getCurrent() {
         try {
-            Question fetched = qRepository.findCurrent().orElseThrow(() -> new QuestionNotFoundException("current"));
+            Question fetched = repository.findCurrent().orElseThrow(() -> new QuestionNotFoundException("current"));
             fetched.getAnswers().sort(new PointSorter());
-            return qMapper.mapToQuestionDto(fetched);
+            return mapper.mapToQuestionDto(fetched);
         } catch (QuestionNotFoundException e) {
             log.error(e.getMessage());
         }
@@ -42,9 +41,9 @@ public class QuestionService {
     public QuestionDto getById(String id) {
         try {
             UUID queryId = UUID.fromString(id);
-            Question fetched = qRepository.findById(queryId).orElseThrow(() -> new QuestionNotFoundException(queryId.toString()));
+            Question fetched = repository.findById(queryId).orElseThrow(() -> new QuestionNotFoundException(queryId.toString()));
             fetched.getAnswers().sort(new PointSorter());
-            return qMapper.mapToQuestionDto(fetched);
+            return mapper.mapToQuestionDto(fetched);
         } catch (QuestionNotFoundException e) {
             log.error(e.getMessage());
         }
@@ -54,11 +53,11 @@ public class QuestionService {
     public QuestionDto create(QuestionDto dto) {
         try{
             isQuestionExisting(dto.getContent());
-            Question entity = qMapper.mapToQuestion(dto);
-            Question returned = qRepository.save(entity);
+            Question entity = mapper.mapToQuestion(dto);
+            Question returned = repository.save(entity);
             returned.getAnswers().forEach(answer -> answer.setQuestion(Question.builder().id(returned.getId()).build()));
-            Question saved = qRepository.save(returned);
-            return qMapper.mapToQuestionDto(saved);
+            Question saved = repository.save(returned);
+            return mapper.mapToQuestionDto(saved);
         }catch(QuestionExistsException e){
             log.error(e.getMessage());
         }
@@ -68,9 +67,9 @@ public class QuestionService {
     public QuestionDto update(QuestionDto dto) {
         try{
             isQuestionExisting(dto.getId());
-            Question entity = qMapper.mapToQuestion(dto);
-            Question fetched = qRepository.save(entity);
-            return qMapper.mapToQuestionDto(fetched);
+            Question entity = mapper.mapToQuestion(dto);
+            Question fetched = repository.save(entity);
+            return mapper.mapToQuestionDto(fetched);
         } catch (QuestionDontExistException e){
             log.error(e.getMessage());
         }
@@ -82,11 +81,11 @@ public class QuestionService {
         try{
             UUID questionId = UUID.fromString(id);
             isQuestionNotExisting(questionId);
-            qRepository.clearCurrent();
-            Question fetched = qRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId));
+            repository.clearCurrent();
+            Question fetched = repository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId));
             fetched.setCurrent(true);
-            Question result = qRepository.saveAndFlush(fetched);
-            return qMapper.mapToQuestionDto(result);
+            Question result = repository.saveAndFlush(fetched);
+            return mapper.mapToQuestionDto(result);
         } catch (QuestionDontExistException e){
             log.error(e.getMessage());
         }
@@ -94,19 +93,19 @@ public class QuestionService {
     }
 
     private void isQuestionExisting(String content) {
-        if(qRepository.existsByContent(content)){
+        if(repository.existsByContent(content)){
             throw new QuestionExistsException(content);
         }
     }
 
     private void isQuestionNotExisting(UUID id) {
-        if(!qRepository.existsById(id)){
+        if(!repository.existsById(id)){
             throw new QuestionDontExistException(id);
         }
     }
 
     private void isQuestionExisting(UUID id) {
-        if(qRepository.existsById(id)){
+        if(repository.existsById(id)){
             throw new QuestionExistsException(id);
         }
     }
