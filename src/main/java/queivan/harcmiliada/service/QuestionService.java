@@ -3,6 +3,7 @@ package queivan.harcmiliada.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import queivan.harcmiliada.domain.Answer;
 import queivan.harcmiliada.domain.Question;
 import queivan.harcmiliada.domain.QuestionDto;
@@ -76,6 +77,7 @@ public class QuestionService {
         return QuestionDto.builder().build();
     }
 
+    @Transactional
     public QuestionDto setCurrent(String id) {
         try{
             UUID questionId = UUID.fromString(id);
