@@ -29,7 +29,7 @@ public class QuestionService {
 
     public QuestionDto getCurrent() {
         try {
-            Question fetched = qRepository.findByCurrent(true);
+            Question fetched = qRepository.findCurrent();
             fetched.getAnswers().sort(new PointSorter());
             return qMapper.mapToQuestionDto(fetched);
         } catch (QuestionNotFoundException e) {
