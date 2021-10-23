@@ -64,6 +64,7 @@ public class QuestionService {
         return QuestionDto.builder().build();
     }
 
+    @Transactional
     public QuestionDto update(QuestionDto dto) {
         try{
             log.info(dto.toString());
