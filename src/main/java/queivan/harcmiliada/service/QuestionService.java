@@ -83,7 +83,7 @@ public class QuestionService {
             qRepository.clearCurrent();
             Question fetched = qRepository.findById(questionId).orElseThrow(() -> new QuestionNotFoundException(questionId));
             fetched.setCurrent(true);
-            Question result = qRepository.save(fetched);
+            Question result = qRepository.saveAndFlush(fetched);
             return qMapper.mapToQuestionDto(result);
         } catch (QuestionDontExistException e){
             log.error(e.getMessage());
