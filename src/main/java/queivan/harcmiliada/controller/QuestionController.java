@@ -31,7 +31,7 @@ public class QuestionController {
         return facade.getById(id);
     }
 
-    @PutMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/current/{id}", produces = APPLICATION_JSON_VALUE)
     public QuestionDto setCurrent(@PathVariable String id){
         return facade.setCurrent(id);
     }
