@@ -27,6 +27,17 @@ public class QuestionService {
         return qMapper.mapToQuestionDtoList(qRepository.findAll());
     }
 
+    public QuestionDto getCurrent() {
+        try {
+            Question fetched = qRepository.findByCurrent(true);
+            fetched.getAnswers().sort(new PointSorter());
+            return qMapper.mapToQuestionDto(fetched);
+        } catch (QuestionNotFoundException e) {
+            log.error(e.getMessage());
+        }
+        return QuestionDto.builder().build();
+    }
+
     public QuestionDto getById(String id) {
         try {
             UUID queryId = UUID.fromString(id);

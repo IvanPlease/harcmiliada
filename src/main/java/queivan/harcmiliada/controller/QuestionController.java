@@ -21,6 +21,11 @@ public class QuestionController {
         return facade.getAll();
     }
 
+    @GetMapping(value = "/current", produces = APPLICATION_JSON_VALUE)
+    public QuestionDto getCurrent(){
+        return facade.getCurrent();
+    }
+
     @GetMapping(value = "/{id}", produces = APPLICATION_JSON_VALUE)
     public QuestionDto getById(@PathVariable String id){
         return facade.getById(id);

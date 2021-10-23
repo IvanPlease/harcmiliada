@@ -9,4 +9,5 @@ import java.util.UUID;
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, UUID> {
     boolean existsByContent(String content);
+    Question findByCurrent(Boolean current);
 }

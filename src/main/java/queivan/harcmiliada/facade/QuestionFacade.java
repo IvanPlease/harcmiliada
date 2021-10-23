@@ -27,4 +27,8 @@ public class QuestionFacade {
     public QuestionDto update(QuestionDto dto) {
         return service.update(dto);
     }
+
+    public QuestionDto getCurrent() {
+        return service.getCurrent();
+    }
 }

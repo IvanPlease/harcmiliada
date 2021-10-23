@@ -24,4 +24,7 @@ public class Question {
             cascade = CascadeType.ALL
     )
     private List<Answer> answers;
+    @NotNull
+    @Builder.Default
+    private boolean current = false;
 }
