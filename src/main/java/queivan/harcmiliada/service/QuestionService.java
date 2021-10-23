@@ -11,6 +11,7 @@ import queivan.harcmiliada.exceptions.QuestionExistsException;
 import queivan.harcmiliada.exceptions.QuestionNotFoundException;
 import queivan.harcmiliada.mapper.QuestionMapper;
 import queivan.harcmiliada.service.repository.QuestionRepository;
+import queivan.harcmiliada.service.sorter.PointSorter;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +31,7 @@ public class QuestionService {
         try {
             UUID queryId = UUID.fromString(id);
             Question fetched = qRepository.findById(queryId).orElseThrow(() -> new QuestionNotFoundException(queryId));
+            fetched.getAnswers().sort(new PointSorter());
             return qMapper.mapToQuestionDto(fetched);
         } catch (QuestionNotFoundException e) {
             log.error(e.getMessage());
