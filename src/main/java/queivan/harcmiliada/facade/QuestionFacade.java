@@ -35,4 +35,8 @@ public class QuestionFacade {
     public QuestionDto setCurrent(String id) {
         return service.setCurrent(id);
     }
+
+    public void delete(String id) {
+        service.delete(id);
+    }
 }

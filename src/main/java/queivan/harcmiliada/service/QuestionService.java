@@ -92,6 +92,16 @@ public class QuestionService {
         return QuestionDto.builder().build();
     }
 
+    public void delete(String id) {
+        try {
+            UUID questionId = UUID.fromString(id);
+            isQuestionNotExisting(questionId);
+            repository.deleteById(questionId);
+        } catch (QuestionDontExistException e) {
+            log.error(e.getMessage());
+        }
+    }
+
     private void isQuestionExisting(String content) {
         if(repository.existsByContent(content)){
             throw new QuestionExistsException(content);
