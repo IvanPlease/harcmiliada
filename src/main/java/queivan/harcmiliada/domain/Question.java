@@ -24,7 +24,7 @@ public class Question {
     private String content;
     @OneToMany(
             mappedBy = "question",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.PERSIST
     )
     private List<Answer> answers;
 }
