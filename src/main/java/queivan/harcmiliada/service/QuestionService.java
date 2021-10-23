@@ -40,7 +40,7 @@ public class QuestionService {
         try{
             isQuestionExisting(dto.getContent());
             Question entity = qMapper.mapToQuestion(dto);
-            Question returned = qRepository.saveAndFlush(entity);
+            Question returned = qRepository.save(entity);
             return qMapper.mapToQuestionDto(returned);
         }catch(QuestionExistsException e){
             log.error(e.getMessage());
