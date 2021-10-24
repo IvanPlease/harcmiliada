@@ -21,7 +21,8 @@ public class Question {
     private String content;
     @OneToMany(
             mappedBy = "question",
-            cascade = CascadeType.ALL
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
     )
     private List<Answer> answers;
     @NotNull
