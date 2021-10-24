@@ -9,7 +9,7 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 @CrossOrigin(origins = "*")
 @RestController
-@RequestMapping("/answers")
+@RequestMapping("/questions/answers")
 @RequiredArgsConstructor
 public class AnswerController {
     private final AnswerFacade facade;
